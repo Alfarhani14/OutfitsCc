@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Outfit Studio: menswear styling</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F2F2F0;--panel:#FFFFFF;--ink:#1B1C1E;--mute:#65676C;--line:#DCDCD8;--stage:#E6E6E2;--btn:#1B1C1E;--btnink:#FFFFFF;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141415;--panel:#1D1E20;--ink:#EDEDEA;--mute:#9A9CA1;--line:#35363A;--stage:#2B2C30;--btn:#EDEDEA;--btnink:#141415}}
+:root[data-theme="dark"]{--bg:#141415;--panel:#1D1E20;--ink:#EDEDEA;--mute:#9A9CA1;--line:#35363A;--stage:#2B2C30;--btn:#EDEDEA;--btnink:#141415}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "Hanken Grotesk",system-ui,sans-serif}
+h1,h2{font-family:Newsreader,Georgia,serif;font-weight:400;margin:0}
+h1{font-size:28px;letter-spacing:-.01em;line-height:1.1}
+h2{font-size:21px;margin-bottom:12px}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.top{max-width:1240px;margin:0 auto;padding:18px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.top p{margin:2px 0 0;color:var(--mute);font-size:13px}
+.acts{display:flex;gap:8px}
+.btn{font:inherit;font-size:13px;padding:8px 14px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;cursor:pointer}
+.btn:hover{border-color:var(--ink)}
+main{max-width:1240px;margin:0 auto;padding:0 20px 40px;display:grid;gap:16px}
+.stage{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;height:46svh;min-height:300px;background:var(--stage);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;align-items:center}
+.tag{position:absolute;left:16px;top:12px;font-size:13px;color:var(--mute)}
+#fig{flex:1;min-height:0;width:100%;display:flex;justify-content:center;padding:34px 0 8px}
+#fig svg{height:100%;width:auto;max-width:100%}
+.cap{display:none;padding:0 24px 18px;text-align:center;font-size:14px}
+.dots{display:flex;justify-content:center;gap:6px;margin-bottom:8px}
+.dots i{width:14px;height:14px;border-radius:50%;border:1px solid rgba(0,0,0,.25)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px}
+.blk{padding:20px;border-bottom:1px solid var(--line)}
+.blk:last-child{border-bottom:0}
+.row{display:flex;flex-wrap:wrap;gap:6px}
+.pill{font:inherit;font-size:13px;padding:7px 14px;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;cursor:pointer;white-space:nowrap}
+.pill:hover{border-color:var(--ink)}
+.pill[aria-selected="true"],.pill[aria-pressed="true"]{background:var(--btn);color:var(--btnink);border-color:var(--btn)}
+.tabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:14px;padding-bottom:4px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}
+.card{border:1px solid var(--line);background:transparent;border-radius:10px;padding:6px 6px 8px;color:inherit;font:inherit;font-size:13px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px}
+.card[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.th{display:flex;align-items:center;justify-content:center;width:100%;height:72px;background:var(--stage);border-radius:6px;color:var(--mute)}
+.clabel{margin:18px 0 8px;font-size:13px;color:var(--mute)}
+.clabel b{color:var(--ink);font-weight:600}
+.sw{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.sw button,.sw input{width:30px;height:30px;border-radius:50%;border:1px solid rgba(128,128,128,.5);padding:0;cursor:pointer;background:none}
+.sw button[aria-pressed="true"]{outline:2px solid var(--ink);outline-offset:2px}
+.sw input{overflow:hidden}
+.lab{font-size:13px;color:var(--mute);margin:14px 0 6px}
+.lab:first-of-type{margin-top:0}
+#notes p{margin:0 0 10px;max-width:60ch}
+#notes p:last-child{margin:0}
+@media (min-width:900px){
+main{grid-template-columns:minmax(0,1fr) 460px;align-items:start}
+.stage{top:16px;height:min(calc(100svh - 32px),820px);min-height:520px}
+.cap{display:block}
+}
+</style>
+</head>
+<body>
+<header class="top">
+ <div><h1>Outfit Studio</h1><p>Build a menswear outfit and see how the colors work together.</p></div>
+ <div class="acts"><button class="btn" data-act="shuffle">Shuffle</button><button class="btn" data-act="reset">Reset</button></div>
+</header>
+<main>
+ <section class="stage" aria-label="Outfit preview">
+  <div class="tag">Outfit preview</div>
+  <div id="fig" role="img"></div>
+  <div class="cap"><div class="dots" id="dots"></div><div id="cap"></div></div>
+ </section>
+ <aside class="panel" aria-label="Clothing selection">
+  <div class="blk"><h2>Looks</h2><div class="row" id="looks"></div></div>
+  <div class="blk"><h2>Wardrobe</h2>
+   <div class="tabs" role="tablist" id="tabs"></div>
+   <div class="grid" id="opts"></div>
+   <div class="clabel" id="clabel"></div>
+   <div class="sw" id="sw"></div>
+  </div>
+  <div class="blk"><h2>Model</h2>
+   <div class="lab">Build</div><div class="row" id="build"></div>
+   <div class="lab">Skin tone</div><div class="sw" id="skin"></div>
+   <div class="lab">Hair</div><div class="sw" id="hair"></div>
+  </div>
+  <div class="blk"><h2>Stylist notes</h2><div id="notes" aria-live="polite"></div></div>
+ </aside>
+</main>
+<script>
+const PAL=[["Navy","#1F2A44"],["Charcoal","#37393D"],["Black","#18181A"],["White","#F5F5F2"],["Ecru","#E4DCC8"],["Stone","#C9C3B8"],["Grey","#9A9CA0"],["Sky","#A8C2DA"],["Denim","#3F5E87"],["Slate","#5C7690"],["Forest","#2F4B3D"],["Olive","#646941"],["Sand","#D6C4A0"],["Camel","#B68B5C"],["Mustard","#C99B2A"],["Rust","#A5522D"],["Burgundy","#6A2333"],["Brown","#5A3E2C"]];
+const CAT={
+top:{l:"Tops",i:[["tee","T-shirt"],["polo","Polo shirt"],["oxford","Oxford shirt"],["knit","Crew-neck knit"]]},
+bottom:{l:"Bottoms",i:[["chino","Chinos"],["trouser","Trousers"],["jean","Jeans"],["short","Shorts"]]},
+jacket:{l:"Jackets",i:[["none","None"],["blazer","Blazer"],["bomber","Bomber"],["coat","Overcoat"]]},
+shoes:{l:"Shoes",i:[["sneaker","Sneakers"],["loafer","Loafers"],["boot","Boots"]]},
+acc:{l:"Accessories",i:[["none","None"],["tie","Tie"],["scarf","Scarf"],["beanie","Beanie"],["shades","Sunglasses"]]}};
+const LOOKS={
+"Boardroom":{top:["oxford","#F5F5F2"],bottom:["trouser","#37393D"],jacket:["blazer","#1F2A44"],shoes:["loafer","#5A3E2C"],acc:["tie","#6A2333"]},
+"Weekend":{top:["tee","#E4DCC8"],bottom:["jean","#3F5E87"],jacket:["bomber","#646941"],shoes:["sneaker","#F5F5F2"],acc:["none","#18181A"]},
+"City evening":{top:["knit","#18181A"],bottom:["trouser","#37393D"],jacket:["coat","#B68B5C"],shoes:["boot","#5A3E2C"],acc:["scarf","#9A9CA0"]},
+"Smart casual":{top:["polo","#A8C2DA"],bottom:["chino","#D6C4A0"],jacket:["none","#1F2A44"],shoes:["sneaker","#F5F5F2"],acc:["shades","#18181A"]}};
+const SKIN=["#F2D3B8","#E0B48F","#C58C62","#8D5A3B","#5A3A28"],HAIR=["#1B1512","#4A3223","#B98E57","#9B9B9B"],BUILD=["Slim","Regular","Athletic"];
+let S={},Mo={build:1,skin:SKIN[1],hair:HAIR[1]},tab="top";
+function apply(n){const l=LOOKS[n];for(const k in l)S[k]={id:l[k][0],c:l[k][1]}}
+
+function sh(h,f){const n=parseInt(h.slice(1),16),t=f<0?0:255,k=Math.abs(f),x=v=>Math.round(v+(t-v)*k);return"#"+[n>>16,n>>8&255,n&255].map(v=>x(v).toString(16).padStart(2,"0")).join("")}
+const lum=h=>{const n=parseInt(h.slice(1),16);return(.299*(n>>16)+.587*(n>>8&255)+.114*(n&255))/255};
+const dl=c=>lum(c)<.4?"rgba(255,255,255,.4)":"rgba(0,0,0,.35)";
+const p=(d,c,x="")=>`<path d="${d}" fill="${c}" stroke="${sh(c,-.28)}" stroke-width="1.2" stroke-linejoin="round" ${x}/>`;
+const m=(d,c,x="")=>p(d,c,x)+`<g transform="translate(300 0) scale(-1 1)">${p(d,c,x)}</g>`;
+const ln=(d,c,w=1.2,x="")=>`<path d="${d}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" ${x}/>`;
+const mln=(d,c,w=1.2,x="")=>ln(d,c,w,x)+`<g transform="translate(300 0) scale(-1 1)">${ln(d,c,w,x)}</g>`;
+const dot=(c,cx,cy,r=1.8)=>`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${dl(c)}"/>`;
+
+const body=(h,neck)=>`M105,113 L136,105 ${neck} L195,113 L192,180 L190,${h} L110,${h} L108,180Z`;
+const SS="M105,113 L82,123 L70,182 L93,189 L108,160Z",SL="M105,113 L82,123 L68,206 L64,290 L87,292 L97,212 L109,160Z";
+const crew="Q150,126 164,105",vee="L150,128 L164,105";
+const collar=c=>m("M136,103 L150,128 L142,133 L127,108Z",sh(c,.1));
+const lapel=c=>m("M136,103 L150,168 L141,196 L123,150Z",sh(c,-.14));
+const SJ="M105,113 L80,123 L66,208 L62,296 L89,298 L99,214 L109,160Z";
+const WB=c=>p("M112,276 L188,276 L188,288 L112,288Z",sh(c,-.18));
+const D={
+top:{
+ tee:c=>m(SS,c)+p(body(288,crew),c),
+ polo:c=>m(SS,c)+p(body(288,vee),c)+collar(c)+ln("M150,128 L150,172",dl(c))+[138,152,166].map(y=>dot(c,150,y)).join(""),
+ oxford:c=>m(SL,c)+p(body(290,vee),c)+collar(c)+ln("M150,128 L150,290",dl(c),1)+[142,170,200,230,260].map(y=>dot(c,150,y)).join("")+mln("M65,278 L87,281",dl(c))+ln("M120,172 L138,172 L138,192 L120,192Z",dl(c),1),
+ knit:c=>m(SL,c)+p(body(298,crew),c)+p("M110,286 L190,286 L190,298 L110,298Z",sh(c,-.12))+ln("M137,107 Q150,126 163,107",sh(c,-.22),5)+mln("M65,281 L87,284",sh(c,-.22),5)},
+bottom:{
+ chino:c=>m("M112,278 L149,278 L147,556 L123,556Z",c)+WB(c),
+ trouser:c=>m("M111,278 L149,278 L148,562 L117,562Z",c)+mln("M131,300 L131,560",dl(c),.8)+WB(c),
+ jean:c=>m("M112,278 L149,278 L147,556 L122,556Z",c)+mln("M114,300 Q124,314 136,300",dl(c),1)+mln("M123,552 L146,552",dl(c),1,'stroke-dasharray="3 2"')+WB(c),
+ short:c=>m("M111,278 L149,278 L148,408 L112,408Z",c)+WB(c)},
+jacket:{
+ blazer:c=>m(SJ,c)+m("M102,114 L136,103 L145,204 L143,310 L108,310 L106,182Z",c)+lapel(c)+mln("M113,264 L131,264",dl(c),1)+dot(c,139,240,2.2)+dot(c,161,240,2.2),
+ bomber:c=>m("M105,113 L80,123 L66,208 L62,284 L90,286 L99,214 L109,160Z",c)+m("M62,284 L90,286 L90,296 L62,294Z",sh(c,-.18))+p("M105,113 L136,105 Q150,116 164,105 L195,113 L192,180 L191,278 L109,278 L108,180Z",c)+p("M109,268 L191,268 L191,282 L109,282Z",sh(c,-.18))+ln("M137,107 Q150,117 163,107",sh(c,-.2),6)+ln("M150,114 L150,270",dl(c),1.4),
+ coat:c=>m("M105,113 L80,123 L66,208 L60,302 L90,304 L100,214 L109,160Z",c)+m("M102,114 L136,103 L145,204 L145,442 L105,442 L106,182Z",c)+lapel(c)+[236,284,332].map(y=>dot(c,139,y,2.2)+dot(c,161,y,2.2)).join("")+mln("M114,356 L134,358",dl(c),1)},
+shoes:{
+ sneaker:c=>m("M118,548 L148,548 L149,574 Q150,585 138,588 L109,588 Q106,578 117,572Z",c)+m("M106,587 L150,587 L150,594 L106,594Z","#ECECE8")+mln("M120,566 L142,566",dl(c)),
+ loafer:c=>m("M119,552 L148,552 L149,576 Q150,587 135,590 L109,590 Q104,580 117,574Z",c)+m("M106,589 L148,589 L148,594 L106,594Z","#1E1E20")+mln("M122,564 L140,564",dl(c)),
+ boot:c=>m("M118,520 L148,520 L148,578 Q150,588 136,590 L109,590 Q104,580 118,574Z",c)+m("M106,589 L148,589 L148,595 L106,595Z","#1E1E20")+mln("M118,534 L148,534",dl(c))},
+acc:{
+ tie:c=>p("M143,116 L157,116 L155,126 L145,126Z",sh(c,-.1))+p("M145,126 L155,126 L160,236 L150,252 L140,236Z",c),
+ scarf:c=>p("M146,120 L172,124 L174,216 L150,220Z",c)+p("M126,98 Q150,112 174,98 L178,122 Q150,138 122,122Z",c)+ln("M150,196 L173,194",dl(c),1.5)+ln("M150,206 L173,204",dl(c),1.5),
+ beanie:c=>p("M123,56 Q122,18 150,17 Q178,18 177,56Z",c)+p("M121,48 L179,48 L179,60 L121,60Z",sh(c,-.15)),
+ shades:c=>m("M128,59 L147,59 L145,70 Q137,75 130,70Z",c)+ln("M147,61 L153,61","#333",1.5)}};
+const VB={top:"55 98 190 210",bottom:"100 270 100 300",jacket:"50 98 200 230",shoes:"98 514 104 86",tie:"118 108 64 150",scarf:"108 94 84 130",beanie:"112 14 76 52",shades:"118 50 64 30"};
+
+function figure(){
+ const sk=Mo.skin,k=[.92,1,1.1][Mo.build],g=t=>S[t],on=t=>g(t).id!=="none",L=t=>D[t][g(t).id](g(t).c);
+ let s='<svg viewBox="40 10 220 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">';
+ s+='<ellipse cx="150" cy="594" rx="92" ry="8" fill="rgba(0,0,0,.14)"/>';
+ s+=p("M141,86 L159,86 L162,112 L138,112Z",sh(sk,-.1));
+ s+=`<g transform="translate(150 0) scale(${k} 1) translate(-150 0)">`;
+ s+=m("M114,285 L149,285 L146,566 L124,566Z",sk)+m(SL,sk)+m("M66,296 a9,13 0 1,0 18,0 a9,13 0 1,0 -18,0Z",sk)+p("M105,113 L195,113 L192,180 L190,292 L110,292 L108,180Z",sk);
+ s+=L("bottom")+L("shoes")+L("top");
+ if(g("acc").id==="tie")s+=L("acc");
+ if(on("jacket"))s+=L("jacket");
+ if(g("acc").id==="scarf")s+=L("acc");
+ s+="</g>";
+ s+=m("M124,64 a4,5 0 1,0 0.1,0Z",sk).replace(/fill="[^"]*"/g,`fill="${sk}"`);
+ s+=`<ellipse cx="150" cy="62" rx="23" ry="29" fill="${sk}" stroke="${sh(sk,-.2)}" stroke-width="1.2"/>`;
+ s+=`<path d="M126,58 Q122,26 150,27 Q178,26 174,58 Q170,42 150,42 Q130,42 126,58Z" fill="${Mo.hair}"/>`;
+ if(["beanie","shades"].includes(g("acc").id))s+=L("acc");
+ return s+"</svg>";
+}
+const nm=h=>{const n=parseInt(h.slice(1),16),r=n>>16,g=n>>8&255,b=n&255;let best,bd=1e9;PAL.forEach(([a,c])=>{const q=parseInt(c.slice(1),16),d=(r-(q>>16))**2+(g-(q>>8&255))**2+(b-(q&255))**2;if(d<bd){bd=d;best=a}});return bd===0?best:best+" (custom)"};
+function hsl(h){const n=parseInt(h.slice(1),16),r=(n>>16)/255,g=(n>>8&255)/255,b=(n&255)/255,mx=Math.max(r,g,b),mn=Math.min(r,g,b),l=(mx+mn)/2,d=mx-mn;let hh=0,s=0;if(d){s=d/(1-Math.abs(2*l-1));hh=mx==r?((g-b)/d)%6:mx==g?(b-r)/d+2:(r-g)/d+4;hh=(hh*60+360)%360}return[hh,s,l]}
+const neutral=c=>{const[,s,l]=hsl(c);return s<.16||l<.13||l>.9};
+const hd=(a,b)=>{const d=Math.abs(hsl(a)[0]-hsl(b)[0]);return Math.min(d,360-d)};
+const lab=(k,id)=>CAT[k].i.find(i=>i[0]===id)[1].toLowerCase();
+
+function notes(){
+ const g=k=>S[k].id,out=[];
+ const cs=["top","bottom","jacket"].filter(k=>g(k)!=="none").map(k=>S[k].c),ch=cs.filter(c=>!neutral(c));
+ if(!ch.length)out.push(["Neutral palette","Every main piece sits in the neutral range, which is easy to wear and hard to get wrong. Add one accent, such as a tie, scarf or shoes, to give the eye somewhere to land."]);
+ else if(ch.length===1)out.push(["One color on a neutral base","Only one piece carries color, so it becomes the focal point. This is the simplest way to wear a strong shade."]);
+ else{let d=0;for(let i=0;i<ch.length;i++)for(let j=i+1;j<ch.length;j++)d=Math.max(d,hd(ch[i],ch[j]));
+  out.push(d<25?["Tonal palette","The colors share one hue, so the outfit looks calm and considered. Vary the lightness between pieces so they don’t blur together."]:d<70?["Analogous palette","The colors sit next to each other on the color wheel, which feels harmonious. Let one piece lead and keep the other quieter."]:d>=150?["Complementary palette","The colors are near opposites, so the look has energy. Keep one dominant and use the other as an accent."]:["Mixed palette","The colors are far enough apart to compete. Neutralise one piece, or move the accent to shoes or a scarf."])}
+ const dif=Math.abs(hsl(S.top.c)[2]-hsl(S.bottom.c)[2]);
+ out.push(dif>.45?["Strong contrast","A clear light–dark split between top and bottom marks the waist and makes the outfit look sharper."]:dif<.15?["Soft contrast","Top and bottom are close in tone, which lengthens the silhouette and reads as polished."]:["Balanced contrast","Top and bottom are distinct without being stark, a safe and flattering middle ground."]);
+ const f=({tee:-1,polo:0,oxford:2,knit:0})[g("top")]+({chino:0,trouser:2,jean:-1,short:-3})[g("bottom")]+({none:0,blazer:2,bomber:-1,coat:2})[g("jacket")]+({sneaker:-1,loafer:2,boot:0})[g("shoes")]+(g("acc")==="tie"?1:0);
+ let tip="";
+ if(g("jacket")==="blazer"&&g("shoes")==="sneaker")tip=" Sneakers with a blazer is a modern pairing; keep them clean and plain.";
+ else if(g("bottom")==="short"&&g("shoes")==="boot")tip=" Boots with shorts is hard to pull off; sneakers are the easier choice.";
+ else if(g("acc")==="tie"&&g("top")!=="oxford")tip=" A tie sits best with an oxford shirt.";
+ out.push([f>=7?"Business formal":f>=4?"Smart":f>=-1?"Smart casual":"Casual","Overall the outfit reads as "+(f>=7?"business-ready.":f>=4?"smart and put together.":f>=-1?"relaxed but neat.":"easygoing and informal.")+tip]);
+ return out.map(a=>`<p><b>${a[0]}.</b> ${a[1]}</p>`).join("");
+}
+
+const thumb=(k,id,c)=>id==="none"?'<div class="th">–</div>':`<svg class="th" viewBox="${VB[k==="acc"?id:k]}" aria-hidden="true">${D[k][id](c)}</svg>`;
+const sw=(arr,cur,act)=>arr.map(c=>`<button data-act="${act}" data-v="${c}" aria-pressed="${c===cur}" aria-label="${act==="col"?nm(c):c}" title="${act==="col"?nm(c):""}" style="background:${c}"></button>`).join("");
+function render(){
+ document.getElementById("looks").innerHTML=Object.keys(LOOKS).map(n=>`<button class="pill" data-act="look" data-v="${n}">${n}</button>`).join("");
+ document.getElementById("tabs").innerHTML=Object.keys(CAT).map(k=>`<button class="pill" role="tab" data-act="tab" data-v="${k}" aria-selected="${k===tab}">${CAT[k].l}</button>`).join("");
+ const cur=S[tab];
+ document.getElementById("opts").innerHTML=CAT[tab].i.map(([id,l])=>`<button class="card" data-act="opt" data-v="${id}" aria-pressed="${cur.id===id}">${thumb(tab,id,cur.c)}<span>${l}</span></button>`).join("");
+ document.getElementById("clabel").innerHTML=cur.id==="none"?"Choose a piece to change its color.":`Color: <b>${nm(cur.c)}</b>`;
+ document.getElementById("sw").innerHTML=cur.id==="none"?"":sw(PAL.map(a=>a[1]),cur.c,"col")+`<input type="color" id="cc" value="${cur.c}" aria-label="Custom color" title="Custom color">`;
+ document.getElementById("build").innerHTML=BUILD.map((b,i)=>`<button class="pill" data-act="build" data-v="${i}" aria-pressed="${Mo.build===i}">${b}</button>`).join("");
+ document.getElementById("skin").innerHTML=sw(SKIN,Mo.skin,"skin");
+ document.getElementById("hair").innerHTML=sw(HAIR,Mo.hair,"hair");
+ paint();
+}
+function paint(){
+ const ks=Object.keys(CAT).filter(k=>S[k].id!=="none"),names=ks.map(k=>{const t=nm(S[k].c).replace(" (custom)","")+" "+lab(k,S[k].id);return t[0].toUpperCase()+t.slice(1)});
+ const f=document.getElementById("fig");f.innerHTML=figure();f.setAttribute("aria-label","Outfit preview: "+names.join(", "));
+ document.getElementById("cap").textContent=names.join(", ");
+ document.getElementById("dots").innerHTML=ks.map(k=>`<i style="background:${S[k].c}"></i>`).join("");
+ document.getElementById("notes").innerHTML=notes();
+}
+function shuffle(){const r=a=>a[Math.random()*a.length|0];for(const k in CAT){const o=CAT[k].i;S[k]={id:r(o)[0],c:r(PAL)[1]}}if(S.bottom.id==="short"&&Math.random()<.6)S.bottom.id="chino"}
+document.addEventListener("click",e=>{
+ const b=e.target.closest("[data-act]");if(!b)return;const a=b.dataset.act,v=b.dataset.v;
+ if(a==="tab")tab=v;
+ else if(a==="opt")S[tab].id=v;
+ else if(a==="col")S[tab].c=v;
+ else if(a==="look")apply(v);
+ else if(a==="build")Mo.build=+v;
+ else if(a==="skin")Mo.skin=v;
+ else if(a==="hair")Mo.hair=v;
+ else if(a==="shuffle")shuffle();
+ else if(a==="reset"){apply("Smart casual");Mo={build:1,skin:SKIN[1],hair:HAIR[1]}}
+ render();
+});
+document.addEventListener("input",e=>{if(e.target.id==="cc"){S[tab].c=e.target.value;paint();document.getElementById("clabel").innerHTML=`Color: <b>${nm(S[tab].c)}</b>`;document.getElementById("opts").innerHTML=CAT[tab].i.map(([id,l])=>`<button class="card" data-act="opt" data-v="${id}" aria-pressed="${S[tab].id===id}">${thumb(tab,id,S[tab].c)}<span>${l}</span></button>`).join("")}});
+apply("Smart casual");render();
+</script>
+</body>
+</html>
